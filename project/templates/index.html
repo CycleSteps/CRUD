@@ -10,17 +10,63 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar {
+        margin-bottom: 30px;
+        background-color: #007bff; /* Optional: Set a background color for better contrast */
+      }
+      .navbar-brand {
+        color: white !important; /* Set the font color to white */
+      }
+      .form-section {
+        background-color: #343a40;
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .table-section {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        margin-bottom: 20px;
+      }
+      .btn-primary,
+      .btn-danger {
+        width: 100%;
+      }
+      .alert {
+        margin-bottom: 15px;
+      }
+      
+    </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-light">
-      <div class="container-md">
-        <a class="navbar-brand" href="/">Crud Mini Project</a>
+    
+    <nav class="navbar navbar-expand-lg bg-blue">
+      <div class="container">
+          <div class="mx-auto">
+              <div class="mb-3">
+                  <a class="navbar-brand" href="/" style="font-size: 36px; margin-top: 50px;">CRUD MINI PROJECT</a>
+              </div>
+          </div>
       </div>
-    </nav>
-    <h2 class="text-white bg-dark text-center p-3">Insert Student Details</h2>
-    <div class="container mt-4">
-      <div class="row justify-content-center">
-        <div class="col-md-4">
+  </nav>
+  
+    
+
+    &nbsp;&nbsp;&nbsp;
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 form-section">
+          <h2 class="text-center">Insert Student Details</h2>
           <form action="/insert" method="post">
             {% csrf_token %}
             <div class="mb-3">
@@ -66,9 +112,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="studentAddress" class="form-label"
-                >Student Address</label
-              >
+              <label for="studentAddress" class="form-label">Student Address</label>
               <input
                 type="text"
                 class="form-control"
@@ -82,6 +126,49 @@
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
           </form>
+        </div>
+        
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+
+        <div class="col-md-7 table-section">
+          <h2 class="text-center">Student Details</h2>
+          {% for message in message %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Student ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Address</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for d in data %}
+              <tr>
+                <td>{{ d.studentId }}</td>
+                <td>{{ d.studentName }}</td>
+                <td>{{ d.studentAge }}</td>
+                <td>{{ d.studentAddress }}</td>
+                <td>{{ d.gender }}</td>
+                <td>
+                  <a href="/update/{{ d.id }}" class="btn btn-primary btn-sm" style="background-color: green; color: white;">Edit</a>
+
+                </td>
+                <td>
+                  <a href="/delete/{{ d.id }}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
